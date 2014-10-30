@@ -1,0 +1,14 @@
+*~
+config.xml
+config.xml.bak
+wifi_config
+wifi_config.bak
+identity/client.*
+identity/hotspotname
+identity/temp.crt
+image.version
+log/*
+perm_log/*
+statistics/*
+weblogs/*
+*.swp
