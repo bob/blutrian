@@ -2,16 +2,14 @@ require 'RMagick'
 
 class ImageFuncs
   include Magick
-  attr_accessor :canvas, :ap1, :ap2, :ap3
+  attr_accessor :canvas, :aps
 
   def initialize(filename, aps)
     canvas = ImageList.new(filename)
     @canvas = canvas.flip
-    @ap1 = aps[0]
-    @ap2 = aps[1]
-    @ap3 = aps[2]
+    @aps = aps
 
-    mark_aps
+    mark_aps aps
   end
 
   def draw_point(x, y, color)
@@ -30,15 +28,28 @@ class ImageFuncs
     circle.draw(@canvas)
   end
 
+  def draw_line(pa, pb, color)
+    return unless pa.class.name == "Array"
+
+    x1, y1 = scale_coords(pa[0], pa[1])
+    x2, y2 = scale_coords(pb[0], pb[1])
+
+    draw = Magick::Draw.new
+    draw.stroke(color.to_s)
+
+    draw.line(x1, y1, x2, y2)
+    draw.draw(@canvas)
+  end
+
   def display
     @canvas.flip.display
   end
 
   private
-  def mark_aps
-    draw_point(@ap1[0], @ap1[1], :red)
-    draw_point(@ap2[0], @ap2[1], :red)
-    draw_point(@ap3[0], @ap3[1], :red)
+  def mark_aps(aps)
+    aps.each do |ap|
+      draw_point(ap[0], ap[1], :red)
+    end
   end
 
   def scale_coords(a, b)
