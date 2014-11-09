@@ -41,8 +41,38 @@ class ImageFuncs
     draw.draw(@canvas)
   end
 
+  def draw_signal(ap, signal)
+    x, y = scale_coords(ap[0] + 5, (100 - ap[1] + 2))
+    annotate(signal.to_s, x, y)
+  end
+
+  def annotate(str, x, y)
+
+    @canvas = @canvas.flip
+    draw = Magick::Draw.new
+
+    draw.annotate(@canvas, 0,0, x, y, str) {
+        self.font_family = 'Helvetica'
+        self.fill = 'black'
+        self.stroke = 'transparent'
+        self.pointsize = 20
+        self.font_weight = BoldWeight
+        self.gravity = NorthWestGravity
+    }
+
+    @canvas = @canvas.flip
+  end
+
   def display
     @canvas.flip.display
+  end
+
+  def write path
+    @canvas.flip.write path
+  end
+
+  def scale val
+    @canvas = @canvas.scale val
   end
 
   private

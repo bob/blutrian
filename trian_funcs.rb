@@ -130,7 +130,7 @@ class TrianFuncs
 
     # circles are not intersecting
     if (r1 + r2) < d
-      p "Not intersecting" if @debug
+      p "Circles NOT intersecting" if @debug
 
       o = r1 + (d - (r1 + r2)) / 2
       p0x = p1[0] + (o * (p2[0] - p1[0]) / d)
@@ -316,6 +316,36 @@ class TrianFuncs
 
     res
   end
+
+  # Segments intersection ------
+  def get_lines_intersection(a1, a2, b1, b2)
+    s1 = subtract_points(a2, a1)
+    s2 = subtract_points(b2, b1)
+
+    s = (-s1[1] * (a1[0] - b1[0]) + s1[0] * (a1[1] - b1[1])) / (-s2[0] * s1[1] + s1[0] * s2[1])
+    t = (s2[0] * (a1[1] - b1[1]) - s2[1] * (a1[0] - b1[0])) / (-s2[0] * s1[1] + s1[0] * s2[1])
+
+    if s >= 0 && s <= 1 && t >= 0 && t <= 1
+      x = a1[0] + (t * s1[0])
+      y = a1[1] + (t * s1[1])
+
+      return [x, y]
+    else
+      p "Lines NOT intersect"
+      return -1
+    end
+  end
+
+  def cross_product(p1, p2)
+    p1[0] * p2[1] - p1[1] * p2[0]
+  end
+
+  def subtract_points(p1, p2)
+    x = p1[0] - p2[0]
+    y = p1[1] - p2[1]
+    [x, y]
+  end
+  # segements intersection -----------
 
   def get_centroid(p)
     rx = (p[0][0] + p[1][0] + p[2][0]) / 3
