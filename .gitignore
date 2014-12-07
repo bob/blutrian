@@ -11,4 +11,5 @@ log/*
 perm_log/*
 statistics/*
 weblogs/*
+results/
 *.swp
