@@ -73,7 +73,7 @@ def process_period(start, finish)
 
     # get 3 units with most number of matches
     top3 = values.sort_by{ |k, v| v[:count] }.last(3)
-    #p top3
+    p top3
 
     vertexes = []
     vertexes[0] = eval("Processor::#{@points[top3[0][0]]}"); a = top3[0][1][:rssi]
@@ -114,6 +114,8 @@ Api::Avans::PERIODS.each do |period|
 
   #processor.canvas.scale(0.5)
   @processor.canvas.write "#{results_path}/#{start}-#{finish}.jpg"
+
+  break
 end
 
 
